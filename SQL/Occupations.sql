@@ -1,22 +1,16 @@
 /*
 NOTE: The following code will only work in MySQL 8 or above.
-
-STEP 1: Select the columns of interest, i.e. y-values and x-values
-extend the base table with extra columns -- one for each x-value
-group and aggregate the extended table -- one group for each y-value
-(optional) prettify the aggregated table
+Author: Nancy Wei
 */
 
-
-# Create a "base table"
+# Create a base table.
 CREATE TABLE People
 (
   Name varchar(10),
   Occupation varchar(25)
 );
 
-
-# Insert data into this base table
+# Insert data into this base table.
 INSERT INTO People VALUES
 ('Samantha', 'Doctor'),
 ('Julia', 'Actor'),
@@ -29,12 +23,10 @@ INSERT INTO People VALUES
 ('Jenny', 'Doctor'),
 ('Priya', 'Singer');
 
-
-# See all data from the base table
 SELECT * 
 FROM People;
 
-
+# Extend this base table by creating a view and add row numbers for each occupation.
 CREATE VIEW People_Extended AS (
   SELECT
     ROW_NUMBER() OVER (PARTITION BY Occupation ORDER BY Name) AS row_num,
@@ -48,20 +40,18 @@ FROM People
 SELECT * 
 FROM People_Extended;
 
-
-
-# Group and aggregate the extended table. 
-# We need to group by row_num, since it provides the y-values.
-create view People_Extended_Pivot as (
-  select
+# Group and aggregate the extended table using the row numbers.
+# MAX function will eliminate the rows with NULL values.
+CREATE VIEW People_Extended_Pivot AS (
+  SELECT
     row_num,
-    max(Doctor) as Doctor,
-    max(Professor) as Professor,
-    max(Singer) as Singer,
-    max(Actor) as Actor
-  from People_Extended
-  group by row_num
+    MAX(Doctor) AS Doctor,
+    MAX(Professor) AS Professor,
+    MAX(Singer) AS Singer,
+    MAX(Actor) AS Actor
+  FROM People_Extended
+  GROUP BY row_num
 );
 
-SELECT * 
+SELECT Doctor, Professor, Singer, Actor
 FROM People_Extended_Pivot;

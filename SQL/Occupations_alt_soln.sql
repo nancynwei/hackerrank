@@ -1,5 +1,5 @@
 /*
-NOTE: The following code will work in MySQL	Ver 14.14 Distrib 5.7.25.
+NOTE: The following code will work in MySQL Ver 14.14 Distrib 5.7.25.
 It might not work in more recent versions of MySQL, such as MySQL 8.
 
 This is one solution (of many) to the problem "Occupation" in Hackerrank.
