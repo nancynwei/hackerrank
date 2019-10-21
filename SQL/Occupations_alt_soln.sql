@@ -4,6 +4,7 @@ It might not work in more recent versions of MySQL, such as MySQL 8.
 
 This is one solution (of many) to the problem "Occupation" in Hackerrank.
 https://www.hackerrank.com/challenges/occupations/problem
+Author: Nancy Wei
 */
 
 # Create a "base table" with two columns: Name and Occupation.
